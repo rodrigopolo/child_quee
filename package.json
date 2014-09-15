@@ -1,0 +1,21 @@
+{
+  "name": "Child Quee",
+  "description": "A simple child process quee handler",
+  "version": "0.0.1",
+  "author": {
+    "name": "Rodrigo Polo",
+    "url": "http://rodrigopolo.com/"
+  },
+  "url": "https://github.com/rodrigopolo/child_quee",
+  "license": "MIT",
+  "keywords": [
+    "child",
+    "quee"
+  ],
+  "main": "index.js",
+  "readme": "",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/rodrigopolo/child_quee/issues"
+  }
+}
