@@ -9,7 +9,7 @@ npm install child_quee
 ```
 
 Usage:
-```
+```javascript
 // Require
 var child_quee = require("./");
 
