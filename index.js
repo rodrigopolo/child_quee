@@ -11,6 +11,15 @@ var clique = function(settings){
 	};
 }
 
+// Single break line
+clique.prototype.__sbl = function(str){
+	if(str){
+		return str.replace(/\r\n/g, '\n')
+	}else{
+		return str;
+	}
+}
+
 // Add tasks to quee
 clique.prototype.addTask = function(task){
 	this.tasks.push(task);
@@ -20,7 +29,7 @@ clique.prototype.addTask = function(task){
 clique.prototype.__nextTask = function(taks){
 	this.current_task++;
 	if(this.current_task < this.tasks.length){
-		this.__runTask(this.tasks[this.current_task]);
+		this.__runTask(this.tasks[this.current_task], this.current_task);
 	}else{
 		if(this.onqueedone){
 			this.onqueedone();
@@ -29,7 +38,7 @@ clique.prototype.__nextTask = function(taks){
 }
 
 // Run a task
-clique.prototype.__runTask = function(task){
+clique.prototype.__runTask = function(task, index){
 	var self = this;
 
 	if(task.stream){
@@ -38,19 +47,19 @@ clique.prototype.__runTask = function(task){
 
 		cli.stdout.on('data', function (data) {
 			if(task.stdout){
-				task.stdout(data);
+				task.stdout(self.__sbl(data.toString()), index);
 			}
 		});
 
 		cli.stderr.on('data', function (data) {
 			if(task.stderr){
-				task.stderr(data);
+				task.stderr(self.__sbl(data.toString()), index);
 			}
 		});
 
 		cli.on('close', function (code) {
 			if(task.close){
-				task.close(code);
+				task.close(code, index);
 			}
 			self.__nextTask();
 		});
@@ -67,19 +76,19 @@ clique.prototype.__runTask = function(task){
 			if(err){
 			}
 			if(task.stdout){
-				task.stdout(stdout);
+				task.stdout(self.__sbl(stdout), index);
 			}
 			if(task.stderr){
-				task.stderr(stderr);
+				task.stderr(self.__sbl(stderr), index);
 			}
 			if(task.close){
-				task.close(err);
+				task.close(err, index);
+			}
+			if(task.allstd){
+				task.allstd(err, self.__sbl(stdout), self.__sbl(stderr), index)
 			}
 			self.__nextTask();
 		});
-
-
-
 	}
 }
 
@@ -90,7 +99,7 @@ clique.prototype.done = function(cb){
 
 // Run the quee
 clique.prototype.run = function(done){
-	this.__runTask(this.tasks[this.current_task]);
+	this.__runTask(this.tasks[this.current_task], this.current_task);
 }
 
 // Exports

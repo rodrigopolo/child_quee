@@ -8,12 +8,17 @@
   },
   "url": "https://github.com/rodrigopolo/child_quee",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rodrigopolo/child_quee.git"
+  },
   "keywords": [
     "child",
+    "process",
     "quee"
   ],
   "main": "index.js",
-  "readme": "",
+  "readme": "Child Quee\n==========\n\nA simple child process quee handler for Node.js\n\nTo install:\n```\nnpm install child_quee\n```\n\nUsage:\n```\n// Require\nvar child_quee = require(\"./\");\n\n// Init\nvar quee = new child_quee();\n\n// First item on quee\nquee.addTask({\n\tstream: true,\n\tmax_buffer: 5,\n\tbin: 'ping',\n\targs: ['google.com','-c','5'],\n\tstdout: function(str){\n\t\tconsole.log('stdout: ' + str);\n\t},\n\tstderr: function(str){\n\t\tconsole.log('stderr: ' + str);\n\t},\n\tclose: function(code){\n\t\tconsole.log('child process exited with code ' + code);\n\t}\n});\n\n// Second item on quee\nquee.addTask({\n\tstream: false,\n\tbin: 'ls',\n\targs: ['-la'],\n\tstdout: function(str){\n\t\tconsole.log('stdout: ' + str);\n\t},\n\tstderr: function(str){\n\t\tconsole.log('stderr: ' + str);\n\t},\n\tclose: function(code){\n\t\tconsole.log('child process exited with code ' + code);\n\t}\n});\n\n// When quee is done\nquee.done(function(){\n\tconsole.log('All task compleated.');\n});\n\n// Start quee\nquee.run();\n\n```\n\n## License\n\n(The MIT License)\n\nCopyright (c) by Rodrigo Polo http://RodrigoPolo.com\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in\nall copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN\nTHE SOFTWARE.",
   "readmeFilename": "README.md",
   "bugs": {
     "url": "https://github.com/rodrigopolo/child_quee/issues"
